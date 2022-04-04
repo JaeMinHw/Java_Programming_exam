@@ -5,7 +5,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -16,8 +15,8 @@ import javax.swing.JTextField;
 public class Project_login extends JFrame {
 	JLabel l1 = new JLabel(" 아이디 ");
 	JLabel l2 = new JLabel("비밀 번호");
-	JButton log_in = new JButton("로그인");
-	JButton new_mem = new JButton("회원가입");
+	RoundedButton log_in = new RoundedButton("로그인");
+	RoundedButton new_mem = new RoundedButton("회원가입");
 	JTextField t1 = new JTextField(10);
 	JPasswordField t2 = new JPasswordField(10);
 	Project_login owner = this;
