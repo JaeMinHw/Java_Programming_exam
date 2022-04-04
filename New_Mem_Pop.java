@@ -5,7 +5,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -22,7 +21,7 @@ public class New_Mem_Pop extends JDialog {
 	JLabel new_l4 = new JLabel(" 아이디 ");
 	JLabel new_l5 = new JLabel("비밀 번호");
 
-	JButton new_join = new JButton("가입하기");
+	RoundedButton new_join = new RoundedButton("가입하기");
 
 	JTextField new_t0 = new JTextField(10);
 	JComboBox<String> strtel = new JComboBox<String>(tel);
@@ -47,7 +46,8 @@ public class New_Mem_Pop extends JDialog {
 		JPanel n_p4 = new JPanel();
 		JPanel n_p5 = new JPanel();
 		JPanel n_p6 = new JPanel();
-		JPanel join_panel = new JPanel(new GridLayout(6, 0));
+		JPanel n_p7 = new JPanel();
+		JPanel join_panel = new JPanel(new GridLayout(7, 0));
 
 		n_p1.add(new_l0);
 		n_p1.add(new_t0); // 가게 이름
@@ -73,7 +73,7 @@ public class New_Mem_Pop extends JDialog {
 		n_p6.add(new_l5);
 		n_p6.add(new_t5); // 비밀번호
 
-		n_p6.add(new_join); // 가입하기 버튼
+		n_p7.add(new_join); // 가입하기 버튼
 
 		join_panel.add(n_p1);
 		join_panel.add(n_p2);
@@ -81,6 +81,7 @@ public class New_Mem_Pop extends JDialog {
 		join_panel.add(n_p4);
 		join_panel.add(n_p5);
 		join_panel.add(n_p6);
+		join_panel.add(n_p7);
 		add(join_panel, BorderLayout.CENTER);
 
 		new_join.addActionListener(new signButtonListener());
