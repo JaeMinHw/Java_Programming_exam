@@ -76,7 +76,7 @@ public class Project_login extends JFrame {
 				} else {
 					// Login_pop.java 파일 열기
 					Login_pop check_log = new Login_pop();
-					check_log.Check_login();
+					// check_log.Check_login();
 				}
 
 			}
