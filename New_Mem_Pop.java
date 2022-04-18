@@ -94,7 +94,14 @@ public class New_Mem_Pop extends JDialog {
 	// 회원가입 버튼을 누르면 반응하는 클래스
 	class signButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			DBdemo dbde = new DBdemo();
+			String a = new_t0.getText();
+			String b = new_t1.getText();
+			String c = new_t2.getText();
+			String d = new_t3.getText();
+			String f = new_t3_1.getText();
 
+			dbde.insertBoard(a, b, c, d, f);
 		}
 	}
 
