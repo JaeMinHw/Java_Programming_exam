@@ -99,9 +99,10 @@ public class New_Mem_Pop extends JDialog {
 			String b = new_t1.getText();
 			String c = new_t2.getText();
 			String d = new_t3.getText();
-			String f = new_t3_1.getText();
+			String f = new_t4.getText();
+			String g = new_t5.getText();
 
-			dbde.insertBoard(a, b, c, d, f);
+			dbde.insertBoard(a, b, c, d, f, g);
 		}
 	}
 
