@@ -26,7 +26,7 @@ public class DBdemo {
 	}
 
 	// 데이터 타입에 맞게 수정하기
-	public void insertBoard(String a, String b, String c, String d, String f) {
+	public void insertBoard(String a, String b, String c, String d, String f, String g) {
 		String sql = "insert into javadb values(?,?,?,?,?,?)";
 
 		PreparedStatement pstmt = null;
@@ -37,7 +37,7 @@ public class DBdemo {
 			pstmt.setString(3, c);
 			pstmt.setString(4, d);
 			pstmt.setString(5, f);
-			pstmt.setString(6, "반갑습니다");
+			pstmt.setString(6, g);
 
 			int result = pstmt.executeUpdate();
 			if (result == 1) {
