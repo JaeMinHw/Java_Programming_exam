@@ -1,9 +1,10 @@
-package java_programming_project;
+package java_programming_cla;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -25,16 +26,13 @@ public class New_Mem_Pop extends JDialog {
 
 	JTextField new_t0 = new JTextField(10);
 	JComboBox<String> strtel = new JComboBox<String>(tel);
-	JTextField new_t1 = new JTextField(3);
-	JTextField new_t1_1 = new JTextField(4);
-	JTextField new_t1_2 = new JTextField(4);
+	JTextField new_t1 = new JTextField(11);
 	JTextField new_t2 = new JTextField(5);
-	JTextField new_t3 = new JTextField(3);
-	JTextField new_t3_1 = new JTextField(4);
-	JTextField new_t3_2 = new JTextField(4);
+	JTextField new_t3 = new JTextField(11);
 	JComboBox<String> mastertel = new JComboBox<String>(tel);
 	JTextField new_t4 = new JTextField(10);
 	JPasswordField new_t5 = new JPasswordField(10);
+	JPanel join_panel = new JPanel(new GridLayout(7, 0));
 
 	New_Mem_Pop() {
 		setTitle("회원가입");
@@ -47,25 +45,18 @@ public class New_Mem_Pop extends JDialog {
 		JPanel n_p5 = new JPanel();
 		JPanel n_p6 = new JPanel();
 		JPanel n_p7 = new JPanel();
-		JPanel join_panel = new JPanel(new GridLayout(7, 0));
 
 		n_p1.add(new_l0);
 		n_p1.add(new_t0); // 가게 이름
 
 		n_p2.add(new_l1);
-		n_p2.add(strtel);
-		n_p2.add(new_t1);
-		n_p2.add(new_t1_1);
-		n_p2.add(new_t1_2);// 가게 전화번호
+		n_p2.add(new_t1);// 가게 전화번호
 
 		n_p3.add(new_l2);
 		n_p3.add(new_t2); // 대표 이름
 
 		n_p4.add(new_l3);
-		n_p4.add(mastertel);
-		n_p4.add(new_t3);
-		n_p4.add(new_t3_1);
-		n_p4.add(new_t3_2);// 대표 전화번호
+		n_p4.add(new_t3);// 대표 전화번호
 
 		n_p5.add(new_l4);
 		n_p5.add(new_t4); // 아이디
@@ -82,7 +73,7 @@ public class New_Mem_Pop extends JDialog {
 		join_panel.add(n_p5);
 		join_panel.add(n_p6);
 		join_panel.add(n_p7);
-		add(join_panel, BorderLayout.CENTER);
+		add(join_panel, null);
 
 		new_join.addActionListener(new signButtonListener());
 
@@ -94,7 +85,7 @@ public class New_Mem_Pop extends JDialog {
 	// 회원가입 버튼을 누르면 반응하는 클래스
 	class signButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			DBdemo dbde = new DBdemo();
+
 			String a = new_t0.getText();
 			String b = new_t1.getText();
 			String c = new_t2.getText();
@@ -102,7 +93,20 @@ public class New_Mem_Pop extends JDialog {
 			String f = new_t4.getText();
 			String g = new_t5.getText();
 
-			dbde.insertBoard(a, b, c, d, f, g);
+			database db;
+			try {
+				db = new database();
+				int check_id = db.insertSign(new String[] { a, b, c, d, f, g });
+				if (check_id == 1) {
+					System.out.println("회원가입 성공");
+				} else {
+					System.out.println("실패");
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
 		}
 	}
 
