@@ -58,6 +58,51 @@ public class database {
 		return returnNum;
 	}
 
+	// 카테고리를 클릭했을 때
+	public String[] click_cate(String cate_name) throws SQLException {
+		int a = 0;
+		String sql = "";
+		int i = 0;
+		if (cate_name.equals("커피")) {
+			sql = "select menu from menu_manage where category = 1";
+			a = count_menu(1);
+		} else if (cate_name.equals("음료")) {
+			sql = "select menu from menu_manage where category = 2";
+			a = count_menu(2);
+		} else if (cate_name.equals("티")) {
+			sql = "select menu from menu_manage where category = 3";
+			a = count_menu(3);
+		} else if (cate_name.equals("디저트")) {
+			sql = "select menu from menu_manage where category = 4";
+			a = count_menu(4);
+		} else if (cate_name.equals("기타")) {
+			sql = "select menu from menu_manage where category = 5";
+			a = count_menu(5);
+		}
+
+		ResultSet query = spendQuery(sql);
+
+		String[] menu_na = new String[a];
+
+		if (query.next()) {
+			for (i = 0; query.next(); i++) {
+				menu_na[i] = query.getString("menu");
+			}
+		}
+		return menu_na;
+	}
+
+	// 카테고리에 해당하는 메뉴의 개수가 몇개인지
+	public int count_menu(int a) throws SQLException {
+		int returnNum = 0;
+		String str = "Select count(*) from menu_manage where category ='" + a + "';";
+		ResultSet query = spendQuery(str);
+		if (query.next()) {
+			returnNum = query.getInt(1);
+		}
+		return returnNum;
+	}
+
 	// 회원가입을 위한 메서드
 	public int insertSign(String[] infor) throws SQLException {
 		String str = "insert into user values(?,?,?,?,?,?)";
@@ -105,6 +150,7 @@ public class database {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println(query);
 		return query;
 	}
 
