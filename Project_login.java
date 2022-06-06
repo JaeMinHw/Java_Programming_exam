@@ -1,4 +1,4 @@
-package java_programming_project;
+package java_programming_cla;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -30,7 +30,6 @@ public class Project_login extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(300, 150);
 		setVisible(true);
-
 	}
 
 	public void show_check() {
@@ -54,16 +53,19 @@ public class Project_login extends JFrame {
 		t2.setEchoChar('*');
 
 		log_in.addActionListener(new loginButtonListener());
-		new_mem.addActionListener(new newmemButtonListener());
+		new_mem.addActionListener(new loginButtonListener());
 
 	}
 
-	// 로그인 버튼 누르면 반응하는 클래스
+	// 버튼 누르면 반응하는 클래스
 	class loginButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			// 여기에는 창 띄우기
 			String log_comm = e.getActionCommand();
+
+			String a = t1.getText();
+			String b = t2.getText();
 
 			if (log_comm.equals("로그인")) {
 				// 버튼 클릭 이벤트는 완료
@@ -74,24 +76,16 @@ public class Project_login extends JFrame {
 				} else if (t2.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요", "비밀번호 입력", JOptionPane.WARNING_MESSAGE);
 				} else {
-					// Login_pop.java 파일 열기
-					Login_pop check_log = new Login_pop();
-					// check_log.Check_login();
+					// 아이디 값과 비밀번호 값 넘겨서 login_try.java파일 열고 값 넘기고
+					// database 파일 열어서 checkLogin 실행하기
+					login_try ch_id = new login_try();
+					int che = ch_id.check_log(a, b);
+					if (che == 1) {
+						dispose();
+					}
 				}
 
-			}
-
-		}
-
-	}
-
-	// 회원가입 버튼 누르면 반응하는 클래스
-	class newmemButtonListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			// 여기에는 창 띄우기
-			String new_comm = e.getActionCommand();
-			if (new_comm.equals("회원가입")) {
+			} else if (log_comm.equals("회원가입")) {
 				New_Mem_Pop New_M = new New_Mem_Pop();
 				New_M.New_Member();
 			}
