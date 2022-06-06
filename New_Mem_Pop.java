@@ -99,6 +99,7 @@ public class New_Mem_Pop extends JDialog {
 				int check_id = db.insertSign(new String[] { a, b, c, d, f, g });
 				if (check_id == 1) {
 					System.out.println("회원가입 성공");
+					dispose();
 				} else {
 					System.out.println("실패");
 				}
