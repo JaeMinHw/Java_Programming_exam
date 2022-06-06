@@ -1,5 +1,6 @@
 package java_programming_cla;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -12,17 +13,24 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class Order_ extends JFrame {
 	private Container c = getContentPane();
+	int for_table_count;
 
 	String ColName[] = { "메뉴", "수량", "가격" };
 	String Data[][];
+	JButton SBtn[] = new JButton[3];
+	String Str[] = { "선택취소", "전체취소", "결제" };
 	DefaultTableModel model = new DefaultTableModel(Data, ColName);
+	StrBtn sbtn = new StrBtn();
 
-	JTextField tf = new JTextField(30); // 총 가격 출력하는 텍스트 필드
+	int count = 0;
+	int sum_pri = 0;
+	String take_id;
+
+	RoundJTextField tf = new RoundJTextField(30); // 총 가격 출력하는 텍스트 필드
 	JTable table = new JTable(model);
 
 	JButton[] coffee = new JButton[15];
@@ -33,6 +41,7 @@ public class Order_ extends JFrame {
 
 	JPanel category = new JPanel();
 	JPanel tableBorder = new JPanel();
+	JPanel sele = new JPanel();
 
 	JPanel menuBorder1 = new JPanel();
 	JPanel menuBorder2 = new JPanel();
@@ -40,15 +49,20 @@ public class Order_ extends JFrame {
 	JPanel menuBorder4 = new JPanel();
 	JPanel menuBorder5 = new JPanel();
 
+	JPanel seleBorder = new JPanel();
+
 	JButton category1 = new JButton("커피");
 	JButton category2 = new JButton("음료");
 	JButton category3 = new JButton("티");
 	JButton category4 = new JButton("디저트");
 	JButton category5 = new JButton("기타");
 
-	public void TestFrame() {
+	public void TestFrame(String id) {
+
+		take_id = id;
+
 		setLayout(null);
-		setTitle("TestFrame");
+		setTitle(login_mem.store_name);
 		setSize(1000, 1000);
 		setLocationRelativeTo(null);
 
@@ -56,6 +70,14 @@ public class Order_ extends JFrame {
 		tableBorder.add(sc);
 		tableBorder.setSize(500, 500);
 		tableBorder.setLocation(25, 20);
+		// 금액란
+		tf.setSize(450, 70);
+		tf.setLocation(50, 480);
+		add(tf);
+
+		sbtn.setSize(400, 70);
+		sbtn.setLocation(530, 480);
+		add(sbtn);
 
 		category.setLayout(new GridLayout(1, 5, 3, 3));
 		category.add(category1);
@@ -100,13 +122,74 @@ public class Order_ extends JFrame {
 		c.add(menuBorder3);
 		c.add(menuBorder4);
 		c.add(menuBorder5);
+		c.add(seleBorder);
 		reMove();
 		category1.addActionListener(new cateButtonListener());
 		category2.addActionListener(new cateButtonListener());
 		category3.addActionListener(new cateButtonListener());
 		category4.addActionListener(new cateButtonListener());
 		category5.addActionListener(new cateButtonListener());
+
+		for (int i = 0; i < Str.length; i++) {
+			SBtn[i].addActionListener(new SBtnButtonListener());
+		}
+
 		setVisible(true);
+
+		for (int i = 0; i < 15; i++) {
+			coffee[i].addActionListener(new menuButtonListener());
+			drink[i].addActionListener(new menuButtonListener());
+			tea[i].addActionListener(new menuButtonListener());
+			dessert[i].addActionListener(new menuButtonListener());
+			els[i].addActionListener(new menuButtonListener());
+		}
+
+	}
+
+	// 메뉴 버튼 눌렀을 때 가격 출력하게 ->
+	// 버튼이 눌리면 그 버튼의 텍스트 값을 db에 넘겨서 select 비교 후 가격 가져오기
+
+	// 텍스트 값이 null이면 추가하지 말기
+	class menuButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			// 여기에는 창 띄우기
+			String log_comm = e.getActionCommand();
+			int price = 0;
+
+			int rowCont = table.getRowCount();
+			int flag = 0;
+			JButton coffee = (JButton) e.getSource();
+			DefaultTableModel m = (DefaultTableModel) table.getModel();
+
+			database db;
+
+			try {
+				db = new database();
+				price = db.menu_price(log_comm);
+				sum_pri += price;
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			for (int i = 0; i < rowCont; i++) {
+				if (table.getValueAt(i, 0).equals(coffee.getText())) {
+					flag = 1;
+					table.setValueAt((int) table.getValueAt(i, 1) + 1, i, 1);
+					table.setValueAt((int) table.getValueAt(i, 2) + price, i, 2);
+					break;
+				}
+			}
+			if (flag == 0) {
+				if (log_comm != "") {
+					m.addRow(new Object[] { log_comm, count + 1, price });
+				}
+			}
+
+			tf.setText("총  :	" + Integer.toString(sum_pri) + "원");
+			tf.setFont(new Font("GOTHIC", Font.BOLD, 25));
+
+		}
 
 	}
 
@@ -119,6 +202,23 @@ public class Order_ extends JFrame {
 			add(new JScrollPane(table));
 		}
 	}
+
+	// 선택 취소, 결제, 전체 취소 버튼 생성
+	class StrBtn extends JPanel {
+		StrBtn() {
+			setBackground(Color.WHITE);
+			setLayout(new GridLayout(1, 4, 3, 3));
+
+			for (int i = 0; i < Str.length; i++) {
+				SBtn[i] = new JButton(Str[i]);
+				add(SBtn[i]);
+			}
+
+		}
+
+	}
+
+	// 메뉴 버튼에 대한 액션 리스너
 
 	// 버튼 누르면 반응하는 클래스
 	class cateButtonListener implements ActionListener {
@@ -198,7 +298,7 @@ public class Order_ extends JFrame {
 				// 기타 카테고리를 누르면
 				try {
 					db = new database();
-					String[] take_na = db.click_cate("디저트");
+					String[] take_na = db.click_cate("기타");
 					for (int i = 0; i < take_na.length - 1; i++) {
 						els[i].setText(take_na[i]);
 					}
@@ -215,6 +315,71 @@ public class Order_ extends JFrame {
 		}
 
 	}
+
+	// 선택 취소, 전체 취소, 결제 눌렀을 때 액션
+	// 버튼 누르면 반응하는 클래스
+	class SBtnButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			// 여기에는 창 띄우기
+			String log_comm = e.getActionCommand();
+
+			if (log_comm.equals("선택취소")) {
+				JButton MBtn = (JButton) e.getSource();
+				DefaultTableModel m = (DefaultTableModel) table.getModel();
+				tf.setText(String.valueOf(""));
+				int choose_pri = (int) table.getValueAt(table.getSelectedRow(), 2);
+				sum_pri -= choose_pri;
+				m.removeRow(table.getSelectedRow());
+				tf.setText("총  :	" + Integer.toString(sum_pri) + "원");
+
+			} else if (log_comm.equals("전체취소")) {
+				JButton MBtn = (JButton) e.getSource();
+				DefaultTableModel m = (DefaultTableModel) table.getModel();
+				sum_pri = 0;
+				m.setRowCount(0);
+				tf.setText(String.valueOf(""));
+			} else if (log_comm.equals("결제")) {
+				int cou = table.getRowCount();
+				int j;
+				int print = 0;
+				String choose_me;
+				int choose_co = 0;
+				int choose_pr = 0;
+				String ch_sum_pri;
+				ch_sum_pri = String.valueOf(sum_pri);
+
+				database db;
+
+				DefaultTableModel m = (DefaultTableModel) table.getModel();
+				System.out.println(cou);
+				pay_fun p_f = new pay_fun();
+				p_f.pay_fun(sum_pri);
+
+				if (cou != 0) {
+					try {
+						db = new database();
+						db.insert_total(take_id, ch_sum_pri); // 가게 이름
+						for (j = 0; j < cou; j++) {
+							choose_me = (String) table.getValueAt(j, 0);
+							choose_co = (int) table.getValueAt(j, 1);
+							choose_pr = (int) table.getValueAt(j, 2);
+							print = db.insert_pay1(choose_me, String.valueOf(choose_co), String.valueOf(choose_pr));
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+
+				m.setRowCount(0);
+				tf.setText(String.valueOf(""));
+			}
+		}
+
+	}
+
+	// 계산기 버튼 만들어서 총 금액에서 +,- 가능하게
 
 	public void reMove() {
 		c.remove(menuBorder1);
