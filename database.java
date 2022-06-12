@@ -294,10 +294,45 @@ public class database {
 	// 회원 탈퇴
 	// delete from user where ID = 'id' and pw = 'pw';
 	public int delete_member(String ID, String PW) throws SQLException {
-		String sql = "delete from user where ID = '" + ID + "' and pw = '" + PW + "';";
+		String sql = "delete from user where ID = ? and pw = ?";
 		String[] info = { ID, PW };
 		int query = spendUpdate(sql, info);
 		return query;
 	}
 
+	public String[] show_pay_code1(int j) throws SQLException {
+		String sql = "select * from pay_list where store_name= '" + login_mem.store_name + "';";
+		String[] print_pa1 = new String[8];
+
+		int i = 0;
+		ResultSet query = spendQuery(sql);
+		while (query.next()) {
+
+			print_pa1[i] = query.getString(j);
+			i++;
+		}
+
+		return print_pa1;
+	}
+
+	public int delete_pay(String choose_pay_co) throws SQLException {
+		String sql = "delete from pay_list where store_name = ? and pay_code = ?";
+		String[] info = { login_mem.store_name, choose_pay_co };
+		int query = spendUpdate(sql, info);
+		return query;
+	}
+
+	public String[] select_pay_list_arry(int i, String pay_code) throws SQLException {
+		String sql = "select * from pay_list_arry where pay_code = ?";
+		String[] info = { pay_code };
+		String[] prin = new String[8];
+		int k = 0;
+		ResultSet query = spendQuerys(sql, info);
+		while (query.next()) {
+			prin[k] = query.getString(i);
+			k++;
+		}
+		return prin;
+
+	}
 }
