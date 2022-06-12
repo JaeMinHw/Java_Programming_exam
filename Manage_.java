@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Manage_ extends JFrame {
-	RoundedButton1 delete_mem = new RoundedButton1("회원 탈퇴");
+	RoundedButton1 delete_mem = new RoundedButton1("결제 취소");
 	RoundedButton1 total_sale = new RoundedButton1("매출 관리");
 	RoundedButton1 info_manage = new RoundedButton1("정보 수정");
 	JPanel p1 = new JPanel();
@@ -30,7 +30,7 @@ public class Manage_ extends JFrame {
 		next_id = id;
 
 		p1.add(info_manage);
-		// p1.add(delete_mem);
+		p1.add(delete_mem);
 		p1.add(total_sale);
 
 		panel.add(p1);
@@ -59,6 +59,9 @@ public class Manage_ extends JFrame {
 				// 일매출 확인 및 월 매출 확인 가능하게.
 				total_price tp = new total_price();
 				tp.total_price();
+			} else if (log_comm.equals("결제 취소")) {
+				pay_list_print plp = new pay_list_print();
+				plp.pay_can();
 			}
 
 		}
