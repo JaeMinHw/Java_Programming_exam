@@ -12,6 +12,8 @@ public class Manage_ extends JFrame {
 	RoundedButton1 delete_mem = new RoundedButton1("결제 취소");
 	RoundedButton1 total_sale = new RoundedButton1("매출 관리");
 	RoundedButton1 info_manage = new RoundedButton1("정보 수정");
+	RoundedButton1 menu_manage = new RoundedButton1("메뉴 수정");
+
 	JPanel p1 = new JPanel();
 	JPanel panel = new JPanel(new GridLayout(4, 4));
 	public String next_id;
@@ -22,7 +24,7 @@ public class Manage_ extends JFrame {
 
 		setLayout(new BorderLayout(10, 10));
 		show_third(login_mem.ID);
-		setSize(300, 150);
+		setSize(400, 150);
 		setVisible(true);
 	}
 
@@ -32,6 +34,7 @@ public class Manage_ extends JFrame {
 		p1.add(info_manage);
 		p1.add(delete_mem);
 		p1.add(total_sale);
+		p1.add(menu_manage);
 
 		panel.add(p1);
 
@@ -40,6 +43,7 @@ public class Manage_ extends JFrame {
 		total_sale.addActionListener(new manage_ButtonListener());
 		info_manage.addActionListener(new manage_ButtonListener());
 		delete_mem.addActionListener(new manage_ButtonListener());
+		menu_manage.addActionListener(new manage_ButtonListener());
 	}
 
 	// 버튼 누르면 반응하는 클래스
@@ -54,7 +58,6 @@ public class Manage_ extends JFrame {
 				// 재로그인 후 수정 가능하게
 				modi_info info = new modi_info();
 				info.modi_info();
-
 			} else if (log_comm.equals("매출 관리")) {
 				// 일매출 확인 및 월 매출 확인 가능하게.
 				total_price tp = new total_price();
@@ -62,6 +65,9 @@ public class Manage_ extends JFrame {
 			} else if (log_comm.equals("결제 취소")) {
 				pay_list_print plp = new pay_list_print();
 				plp.pay_can();
+			} else if (log_comm.equals("메뉴 수정")) {
+				modi_menu mm = new modi_menu();
+				mm.modi_frame();
 			}
 
 		}
