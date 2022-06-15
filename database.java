@@ -109,19 +109,19 @@ public class database {
 		String sql = "";
 		int i = 0;
 		if (cate_name.equals("커피")) {
-			sql = "select menu from menu_manage where category = 1";
+			sql = "select menu from menu_manage where store_name = '" + login_mem.store_name + "' and category = 1";
 			a = count_menu(1);
 		} else if (cate_name.equals("음료")) {
-			sql = "select menu from menu_manage where category = 2";
+			sql = "select menu from menu_manage where store_name = '" + login_mem.store_name + "' and category = 2";
 			a = count_menu(2);
 		} else if (cate_name.equals("티")) {
-			sql = "select menu from menu_manage where category = 3";
+			sql = "select menu from menu_manage where store_name = '" + login_mem.store_name + "' and category = 3";
 			a = count_menu(3);
 		} else if (cate_name.equals("디저트")) {
-			sql = "select menu from menu_manage where category = 4";
+			sql = "select menu from menu_manage where store_name = '" + login_mem.store_name + "' and category = 4";
 			a = count_menu(4);
 		} else if (cate_name.equals("기타")) {
-			sql = "select menu from menu_manage where category = 5";
+			sql = "select menu from menu_manage where store_name = '" + login_mem.store_name + "' and category = 5";
 			a = count_menu(5);
 		}
 
@@ -334,5 +334,57 @@ public class database {
 		}
 		return prin;
 
+	}
+
+	public int menu_pri(String menu_name) throws SQLException {
+		int price = 0;
+		String sql = "select price from menu_manage where menu = '" + menu_name + "' and store_name = '"
+				+ login_mem.store_name + "';";
+		ResultSet query = spendQuery(sql);
+		if (query.next()) {
+			price = query.getInt(1);
+		}
+
+		return price;
+	}
+
+	// 메뉴 수정하기
+	public int modify_menu(String menu_name, String menu_name_sear, int menu_price) throws SQLException {
+		String sql = "update menu_manage set menu = '" + menu_name + "' , price = '" + menu_price
+				+ "' where store_name = '" + login_mem.store_name + "' and menu = '" + menu_name_sear + "';";
+
+		PreparedStatement stmt = null;
+		int count = 0;
+
+		try {
+			stmt = conn.prepareStatement(sql);
+
+			count = stmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+
+	}
+
+	public int insert_menu(int category, String menu_name, int price) throws SQLException {
+		String sql = "insert menu_manage values ( ? , ? , ?, ?)";
+		String t_category = Integer.toString(category);
+		String t_price = Integer.toString(price);
+
+		String info[] = { login_mem.store_name, t_category, menu_name, t_price };
+		int query = spendUpdate(sql, info);
+		return query;
+	}
+
+	public int delete_menu(String menu_name) throws SQLException {
+		int count = 0;
+		String sql = "delete from menu_manage where store_name = ? and menu = ?";
+
+		String info[] = { login_mem.store_name, menu_name };
+		int query = spendUpdate(sql, info);
+		return query;
 	}
 }
