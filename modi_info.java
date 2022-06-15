@@ -75,7 +75,8 @@ public class modi_info extends JFrame {
 					not_use_Login_check log_c = new not_use_Login_check();
 					int i = log_c.log_chec(a, b);
 					if (i == 1) { // 본인확인 성공
-						// 로그인 한 아이디에 대한 정보를 수정할 수 있는 함수 만들기 입력한 id값 가지고 modify 함수로 넘기기
+						// 로그인 한 아이디에 대한 정보를 수정할 수 있는 함수 만들기 입력한 id값 가지고 modify 함수로 넘기기'
+						dispose();
 						modify modi = new modify();
 						dispose();
 					} else { // 본인확인 실패
