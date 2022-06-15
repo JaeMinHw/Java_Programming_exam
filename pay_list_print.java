@@ -89,7 +89,6 @@ public class pay_list_print extends JFrame {
 		}
 	}
 
-	// 선택 취소, 결제, 전체 취소 버튼 생성
 	class StrBtn extends JPanel {
 		StrBtn() {
 			setBackground(Color.WHITE);
